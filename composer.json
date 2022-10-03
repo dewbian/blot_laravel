@@ -15,8 +15,7 @@
         "laravel/socialite": "4.1",
         "laravel/tinker": "^1.0",
         "socialiteproviders/kakao": "4.0",
-        "socialiteproviders/naver": "3.1",
-        "way/generators": "^3.0"
+        "socialiteproviders/naver": "3.1"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
