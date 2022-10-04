@@ -32,10 +32,13 @@ class SocialController extends Controller
 
 
         if (! array_key_exists($provider, config('services'))) {
+             
+            Log::info("11111111111"  );  
             return $this->sendNotSupportedResponse($provider);
         }
 
-        if (! $request->has('code')) {
+        if (! $request->has('code')) { 
+            Log::info("222222"  );  
             return $this->redirectToProvider($provider);
         }
 
@@ -62,6 +65,8 @@ class SocialController extends Controller
      */
     protected function handleProviderCallback(Request $request, string $provider)
     {
+
+        Log::info("333333333333333"  );              
         $socialUser = Socialite::driver($provider)->user();
 
         Log::info($socialUser->getEmail());    
