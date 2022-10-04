@@ -73,13 +73,13 @@
                     </form>
               
                     <div class="flex flex-wrap items-center  mt-5 pl-24 "  >
-                        <button onclick="location.href='{{ route('social/naver') }}'"  class="bg-green-400 hover:bg-green-500 text-black  font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline width:60% ">                                
+                        <button onclick="location.href='{{ route('social.login', ['provider' => 'naver']) }}'"  class="bg-green-400 hover:bg-green-500 text-black  font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline width:60% ">                                
                         {{ __('Naver Login') }}
                         </button>
                     </div>
 
                     <div class="flex flex-wrap items-center  mt-5 mb-5 pl-24 "  >
-                        <button onclick="location.href='{{  route('social/kakao') }}'"  class="bg-yellow-400 hover:bg-yellow-500 text-yellow-900 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline width:60% ">                                
+                        <button onclick="location.href='{{ route('social.login', ['provider' => 'kakao']) }}'"  class="bg-yellow-400 hover:bg-yellow-500 text-yellow-900 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline width:60% ">                                
                         {{ __('Kakao Login') }}
                         </button>
                     </div>   
