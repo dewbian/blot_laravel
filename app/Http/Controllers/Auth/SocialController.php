@@ -81,7 +81,7 @@ class SocialController extends Controller
        // dump( "현재유저는===>[".$user2."]"  );    
         
         // 구글로그인한 유저의 정보를 가져올 수 있습니다.(허용한 한도 내에서)
-        dd($socialUser);
+        //dd($socialUser);
             
         // 유저가 이미 회원인지 확인하는 메서드입니다.
         $user = $this->findOrCreateUser($socialUser);
