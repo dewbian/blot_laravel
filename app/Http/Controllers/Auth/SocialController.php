@@ -80,7 +80,6 @@ class SocialController extends Controller
 
         if ($user = User::where('email', $socialUser->getEmail())->first()) {
             $this->guard()->login($user, true);
-
             return $this->sendLoginResponse($request);
         }
 
@@ -96,17 +95,13 @@ class SocialController extends Controller
      */
     protected function register(Request $request, SocialUser $socialUser)
     {
-
-
         event(new Registered($user = User::create($socialUser->getRaw())));
-
         $user->email_verified_at = date('Y-m-d H:i:s'); //Date::now();
         $user->remember_token = Str::random(60);
       //  $user->sremember_token = Str::random(60);
         $user->save();
 
         $this->guard()->login($user, true);
-
         return $this->sendLoginResponse($request);
     }
 
@@ -118,7 +113,10 @@ class SocialController extends Controller
      */
     protected function authenticated(Request $request, User $user): void
     {
-        flash()->success(__('auth.welcome', ['name' => $user->name]));
+        //flash()->success(__('auth.welcome', ['name' => $user->name]));
+
+        //$request->session()->flash('status', 'Task was successful!');
+
     }
 
     /**
