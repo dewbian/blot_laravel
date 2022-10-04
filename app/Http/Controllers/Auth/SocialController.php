@@ -53,6 +53,7 @@ class SocialController extends Controller
      */
     protected function redirectToProvider(string $provider): RedirectResponse
     {
+        Log::info("소셜로그인하러 출발하자"  );  
         return Socialite::driver($provider)->redirect();
     }
 
