@@ -23,27 +23,27 @@ class SocialController extends Controller
      * @param string  $provider
      * @return RedirectResponse|Response
      */
-    public function execute(Request $request, string $provider)
-    {
+    // public function execute(Request $request, string $provider)
+    // {
 
-        Log::info("C:\blot\app\Http\Controllers\Auth\SocialController.php");    
-        Log::info("provider===>[".$provider."]"  );   
-        Log::info("request===>[".$request."]"  );   
+    //     Log::info("C:\blot\app\Http\Controllers\Auth\SocialController.php");    
+    //     Log::info("provider===>[".$provider."]"  );   
+    //     Log::info("request===>[".$request."]"  );   
 
 
-        if (! array_key_exists($provider, config('services'))) {
+    //     if (! array_key_exists($provider, config('services'))) {
              
-            Log::info("11111111111"  );  
-            return $this->sendNotSupportedResponse($provider);
-        }
+    //         Log::info("11111111111"  );  
+    //         return $this->sendNotSupportedResponse($provider);
+    //     }
 
-        if (! $request->has('code')) { 
-            Log::info("222222"  );  
-            return $this->redirectToProvider($provider);
-        }
+    //     if (! $request->has('code')) { 
+    //         Log::info("222222"  );  
+    //         return $this->redirectToProvider($provider);
+    //     }
 
-        return $this->handleProviderCallback($request, $provider);
-    }
+    //     return $this->handleProviderCallback($request, $provider);
+    // }
 
     /**
      * 사용자를 주어진 공급자의 OAuth 서비스로 리디렉션합니다.
@@ -53,7 +53,7 @@ class SocialController extends Controller
      */
     protected function redirectToProvider(string $provider): RedirectResponse
     {
-        Log::info("소셜로그인하러 출발하자"  );  
+        //Log::info("소셜로그인하러 출발하자"  );  
         return Socialite::driver($provider)->redirect();
     }
 
@@ -66,23 +66,25 @@ class SocialController extends Controller
      */
     protected function handleProviderCallback(Request $request, string $provider)
     {
-
+ 
         Log::info("333333333333333"  );              
         $socialUser = Socialite::driver($provider)->user();
-
-        Log::info($socialUser->getEmail());    
+  
+        Log::info("소셜에서 받아온 이메일 주소 ===>[".$socialUser->getEmail()."]"  );    
+        dump("소셜에서 받아온 이메일 주소 ===>[".$socialUser->getEmail()."]"  );   
         $user2 = User::where('email', $socialUser->getEmail())->first();
 
-        Log::info("현재유저는===>[".$user2."]"  );    
+        Log::info( "현재유저는===>[".$user2."]"   );    
+        dump( "현재유저는===>[".$user2."]"  );    
         
 
-        // if ($user = User::where('email', $socialUser->getEmail())->first()) {
-        //     $this->guard()->login($user, true);
+        if ($user = User::where('email', $socialUser->getEmail())->first()) {
+            $this->guard()->login($user, true);
 
-        //     return $this->sendLoginResponse($request);
-        // }
+            return $this->sendLoginResponse($request);
+        }
 
-        // return $this->register($request, $socialUser);
+        return $this->register($request, $socialUser);
     }
 
     /**
@@ -100,6 +102,7 @@ class SocialController extends Controller
 
         $user->email_verified_at = Date::now();
         $user->remember_token = Str::random(60);
+      //  $user->sremember_token = Str::random(60);
         $user->save();
 
         $this->guard()->login($user, true);
