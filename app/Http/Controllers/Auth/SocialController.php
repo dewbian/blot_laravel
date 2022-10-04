@@ -93,7 +93,7 @@ class SocialController extends Controller
         }
 
         Auth::login($userToLogin);
-        return redirect('/home');
+       // return redirect('/home');
 
 
         // if ($user = User::where('email', $socialUser->getEmail())->first()) {
