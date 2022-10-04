@@ -67,12 +67,12 @@ class SocialController extends Controller
     {
 
         Log::info("333333333333333"  );              
-        $socialUser = Socialite::driver($provider)->user();
+        //$socialUser = Socialite::driver($provider)->user();
 
-        Log::info($socialUser->getEmail());    
-        $user2 = User::where('email', $socialUser->getEmail())->first();
+        //Log::info($socialUser->getEmail());    
+        //$user2 = User::where('email', $socialUser->getEmail())->first();
 
-        Log::info("현재유저는===>[".$user2."]"  );    
+        //Log::info("현재유저는===>[".$user2."]"  );    
         
 
         // if ($user = User::where('email', $socialUser->getEmail())->first()) {
