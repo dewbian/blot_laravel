@@ -103,8 +103,15 @@ class SocialController extends Controller
         }
 
 
-        Auth::login($userToLogin);
+        //\Auth::login($userToLogin);
 
+        Auth::login($userToLogin);
+        $name = Auth::user()['name'];
+
+        dump( "로그인 되었습니다.===>[".$name."]"  );    
+        
+        
+        
         //Auth::login($userToLogin);
         //return redirect('/');
 
@@ -135,11 +142,6 @@ class SocialController extends Controller
 
         // $this->guard()->login($user, true);
         // return $this->sendLoginResponse($request);
-
-
-        Auth::login($userToLogin);
-        return redirect('/home');
-
     }
 
     /**
@@ -150,7 +152,7 @@ class SocialController extends Controller
      */
     protected function authenticated(Request $request, User $user): void
     {
-        flash()->success(__('auth.welcome', ['name' => $user->name]));
+       // flash()->success(__('auth.welcome', ['name' => $user->name]));
 
         //$request->session()->flash('status', 'Task was successful!');
 
@@ -164,7 +166,7 @@ class SocialController extends Controller
      */
     protected function sendNotSupportedResponse(string $provider): RedirectResponse
     {
-        flash()->error(trans('auth.social.not_supported', ['provider' => $provider]));
+        //flash()->error(trans('auth.social.not_supported', ['provider' => $provider]));
 
         return back();
     }
