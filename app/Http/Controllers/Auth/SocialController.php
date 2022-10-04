@@ -8,10 +8,10 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Str;
 use Illuminate\Http\{RedirectResponse, Request, Response};
+use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User as SocialUser;
-use Log; 
-use Auth;
+use Log;   
 
 class SocialController extends Controller
 {
@@ -93,7 +93,7 @@ class SocialController extends Controller
             $userToLogin->social_provider = 'naver'; 
             $userToLogin->save();
         }else{
-            dump( "있어요 있어  ===>[".$userToLogin->getEmail()."]"  );      
+            dump( "있어요 있어  ===>[".$userToLogin."]"  );      
         }
         if (!$userToLogin) {    
             
@@ -101,7 +101,11 @@ class SocialController extends Controller
         }else{
             dump( "222222222222"  );   
         }
+
+
         Auth::login($userToLogin);
+
+        //Auth::login($userToLogin);
         //return redirect('/');
 
 
