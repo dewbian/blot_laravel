@@ -144,7 +144,7 @@ class SocialController extends Controller
                     ->update(['name' => $socialUser->getName()],['email' => $socialUser->getEmail()]);
             }
             else{
-                User::where('uid', $existUser->uid)
+                User::where('email', $existUser->uid)
                     ->update(['name' => $socialUser->getName()],['email' => $socialUser->getEmail()],['rememt_token'=> $socialUser->refreshToken]);
             }
             // 그전꺼로 로그인 되어있는 정보로 로그인해야함
@@ -152,8 +152,7 @@ class SocialController extends Controller
         }
         else{
             $user = User::firstOrCreate([
-                'name'  => $socialUser->getName(),  
-                'uid'  => $socialUser->getId(), 
+                'name'  => $socialUser->getName(),   
                 'email' => $socialUser->getEmail(), // 구글 이메일 가져오기 
                 'social_id'=>$socialUser->getId(),
                 'social_provider'=>'naver',
