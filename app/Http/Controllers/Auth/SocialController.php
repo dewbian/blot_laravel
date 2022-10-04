@@ -85,7 +85,7 @@ class SocialController extends Controller
         
          if (!$userToLogin) {
             
-            dump( "없어요 없어. ===>[".$socialUser->getEmail()."]"  );    
+            dump( "없어요 없어. ===>[]"  );    
             event(new Registered($userToLogin = User::create($socialUser->getRaw())));
             $userToLogin->email_verified_at = date('Y-m-d H:i:s'); //Date::now();
             $userToLogin->remember_token = Str::random(60); 
@@ -95,7 +95,12 @@ class SocialController extends Controller
         }else{
             dump( "있어요 있어  ===>[".$userToLogin->getEmail()."]"  );      
         }
-
+        if (!$userToLogin) {    
+            
+            dump( "111111111111111111"  );   
+        }else{
+            dump( "222222222222"  );   
+        }
         Auth::login($userToLogin);
         //return redirect('/');
 
