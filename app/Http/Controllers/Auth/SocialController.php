@@ -100,7 +100,7 @@ class SocialController extends Controller
 
         event(new Registered($user = User::create($socialUser->getRaw())));
 
-        $user->email_verified_at = Date::now();
+        $user->email_verified_at = date('Y-m-d H:i:s'); //Date::now();
         $user->remember_token = Str::random(60);
       //  $user->sremember_token = Str::random(60);
         $user->save();
