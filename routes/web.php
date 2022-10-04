@@ -26,5 +26,11 @@ Route::get('/social/{provider}', [
     'uses' => 'Auth\SocialController@execute',
 ]);
 
+Route::get('/social/{provider}/callback','Auth\SocialController@handleProviderCallback');
+//Route::get('login/github/callback', 'Auth\LoginController@handleProviderCallback');
+
+
+
+ 
 
 Route::view('/social/invalid', 'auth.social.invalid');

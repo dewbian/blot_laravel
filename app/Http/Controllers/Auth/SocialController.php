@@ -70,16 +70,18 @@ class SocialController extends Controller
         $socialUser = Socialite::driver($provider)->user();
 
         Log::info($socialUser->getEmail());    
-        Log::info("현재유저는===>[".$user."]"  );    
+        $user2 = User::where('email', $socialUser->getEmail())->first();
+
+        Log::info("현재유저는===>[".$user2."]"  );    
         
 
-        if ($user = User::where('email', $socialUser->getEmail())->first()) {
-            $this->guard()->login($user, true);
+        // if ($user = User::where('email', $socialUser->getEmail())->first()) {
+        //     $this->guard()->login($user, true);
 
-            return $this->sendLoginResponse($request);
-        }
+        //     return $this->sendLoginResponse($request);
+        // }
 
-        return $this->register($request, $socialUser);
+        // return $this->register($request, $socialUser);
     }
 
     /**
