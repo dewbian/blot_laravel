@@ -18,6 +18,10 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/logout', function(){
+    return view('welcome');
+});
+
 
 
 
@@ -27,14 +31,7 @@ Route::get('/home', 'HomeController@index')->name('home');
  ]);
 
 
-//Route::get('/social/{provider}' , 'Auth\SocialController@redirectToProvider');
 
 Route::get('/social/{provider}/callback','Auth\SocialController@handleProviderCallback');
-
-//Route::get('login/github/callback', 'Auth\LoginController@handleProviderCallback');
-
-
-
- 
 
 Route::view('/social/invalid', 'auth.social.invalid');
