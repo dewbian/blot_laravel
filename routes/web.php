@@ -22,8 +22,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
  Route::get('/social/{provider}', [
-       'as' => 'social.login',
-     'uses' => 'Auth\SocialController@redirectToProvider',
+    'as' => 'social.login',
+    'uses' => 'Auth\SocialController@redirectToProvider',
  ]);
 
 
