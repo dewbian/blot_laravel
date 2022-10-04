@@ -68,32 +68,36 @@ class SocialController extends Controller
     protected function handleProviderCallback(Request $request, string $provider)
     {
  
-        Log::info("333333333333333"  );              
+        //Log::info("333333333333333"  );              
         $socialUser = Socialite::driver($provider)->user();
   
-        Log::info("소셜에서 받아온 이메일 주소 ===>[".$socialUser->getEmail()."]"  );    
-        dump("소셜에서 받아온 이메일 주소 ===>[".$socialUser->getEmail()."]"  );   
-        $user2 = User::where('email', $socialUser->getEmail())->first();
+        //Log::info("소셜에서 받아온 이메일 주소 ===>[".$socialUser->getEmail()."]"  );    
+        //dump("소셜에서 받아온 이메일 주소 ===>[".$socialUser->getEmail()."]"  );   
+       // $user2 = User::where('email', $socialUser->getEmail())->first();
 
-        Log::info( "현재유저는===>[".$user2."]"   );    
-        dump( "현재유저는===>[".$user2."]"  );    
+       // Log::info( "현재유저는===>[".$user2."]"   );    
+       // dump( "현재유저는===>[".$user2."]"  );    
         
         $userToLogin = User::where([
             'social_provider' => 'naver',
             'social_id'       => $socialUser->getId(),  
         ])->first();    
-
+        
          if (!$userToLogin) {
+            
+            dump( "없어요 없어. ===>[".$socialUser->getEmail()."]"  );    
             event(new Registered($userToLogin = User::create($socialUser->getRaw())));
             $userToLogin->email_verified_at = date('Y-m-d H:i:s'); //Date::now();
             $userToLogin->remember_token = Str::random(60); 
             $userToLogin->social_id = $socialUser -> getId();
             $userToLogin->social_provider = 'naver'; 
             $userToLogin->save();
+        }else{
+            dump( "있어요 있어  ===>[".$userToLogin->getEmail()."]"  );      
         }
 
         Auth::login($userToLogin);
-       // return redirect('/home');
+        //return redirect('/');
 
 
         // if ($user = User::where('email', $socialUser->getEmail())->first()) {
