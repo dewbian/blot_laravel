@@ -10,7 +10,8 @@ use Illuminate\Support\Str;
 use Illuminate\Http\{RedirectResponse, Request, Response};
 use Laravel\Socialite\Facades\Socialite;
 use Laravel\Socialite\Two\User as SocialUser;
-use Log;
+use Log; 
+use Auth;
 
 class SocialController extends Controller
 {
