@@ -21,13 +21,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 
-// Route::get('/social/{provider}', [
-//     'as' => 'social.login',
-//     'uses' => 'Auth\SocialController@execute',
-// ]);
+ Route::get('/social/{provider}', [
+       'as' => 'social.login',
+     'uses' => 'Auth\SocialController@redirectToProvider',
+ ]);
 
 
-Route::get('/social/{provider}' , 'Auth\SocialController@redirectToProvider');
+//Route::get('/social/{provider}' , 'Auth\SocialController@redirectToProvider');
 
 Route::get('/social/{provider}/callback','Auth\SocialController@handleProviderCallback');
 
