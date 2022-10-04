@@ -67,7 +67,9 @@ class SocialController extends Controller
      */
     protected function handleProviderCallback(Request $request, string $provider)
     {
- 
+
+        
+
         //Log::info("333333333333333"  );              
         $socialUser = Socialite::driver($provider)->user();
   
@@ -78,42 +80,51 @@ class SocialController extends Controller
        // Log::info( "현재유저는===>[".$user2."]"   );    
        // dump( "현재유저는===>[".$user2."]"  );    
         
-        $userToLogin = User::where([
-            'social_provider' => 'naver',
-            'social_id'       => $socialUser->getId(),  
-        ])->first();    
-        
-         if (!$userToLogin) {
+        // 구글로그인한 유저의 정보를 가져올 수 있습니다.(허용한 한도 내에서)
+        dd($socialUser);
             
-            dump( "없어요 없어. ===>[]"  );    
-            event(new Registered($userToLogin = User::create($socialUser->getRaw())));
-            $userToLogin->email_verified_at = date('Y-m-d H:i:s'); //Date::now();
-            $userToLogin->remember_token = Str::random(60); 
-            $userToLogin->social_id = $socialUser -> getId();
-            $userToLogin->social_provider = 'naver'; 
-            $userToLogin->save();
-        }else{
-            dump( "있어요 있어  ===>[".$userToLogin."]"  );      
-        }
-        if (!$userToLogin) {    
+        // 유저가 이미 회원인지 확인하는 메서드입니다.
+        $user = $this->findOrCreateUser($socialUser);
+        Auth::login($user, false);
+
+        //토큰을 활용하기위해 로컬에 저장해도 되고 세션에 저장하거나 쿠키에 저장해서 활용할 수 있겠습니다.
+        return redirect('/');
+    //     $userToLogin = User::where([
+    //         'social_provider' => 'naver',
+    //         'social_id'       => $socialUser->getId(),  
+    //     ])->first();    
+        
+    //      if (!$userToLogin) {
             
-            dump( "111111111111111111"  );   
-        }else{
-            dump( "222222222222"  );   
-        }
+    //         dump( "없어요 없어. ===>[]"  );    
+    //         event(new Registered($userToLogin = User::create($socialUser->getRaw())));
+    //         $userToLogin->email_verified_at = date('Y-m-d H:i:s'); //Date::now();
+    //         $userToLogin->remember_token = Str::random(60); 
+    //         $userToLogin->social_id = $socialUser -> getId();
+    //         $userToLogin->social_provider = 'naver'; 
+    //         $userToLogin->save();
+    //     }else{
+    //         dump( "있어요 있어  ===>[".$userToLogin."]"  );      
+    //     }
+    //     if (!$userToLogin) {    
+            
+    //         dump( "111111111111111111"  );   
+    //     }else{
+    //         dump( "222222222222"  );   
+    //     }
 
 
-        //\Auth::login($userToLogin);
+    //     //\Auth::login($userToLogin);
 
-        Auth::login($userToLogin);
-        $name = Auth::user()['name'];
+    //     Auth::login($userToLogin, false);
+    //     $name = Auth::user()['name'];
 
-        dump( "로그인 되었습니다.===>[".$name."]"  );    
+    //     dump( "로그인 되었습니다.===>[".$name."]"  );    
         
         
         
-        //Auth::login($userToLogin);
-       return redirect('/');
+    //     //Auth::login($userToLogin);
+    //    return redirect('/home');
 
 
         // if ($user = User::where('email', $socialUser->getEmail())->first()) {
@@ -123,6 +134,35 @@ class SocialController extends Controller
 
         // return $this->register($request, $socialUser);
     }
+
+
+    public function findOrCreateUser($socialUser){
+        $existUser = User::where('email',$socialUser->email)->first();
+        if($existUser){
+            if($socialUser->refreshToken===null){
+                User::where('email', $existUser->email)
+                    ->update(['name' => $socialUser->getName()],['email' => $socialUser->getEmail()]);
+            }
+            else{
+                User::where('uid', $existUser->uid)
+                    ->update(['name' => $socialUser->getName()],['email' => $socialUser->getEmail()],['rememt_token'=> $socialUser->refreshToken]);
+            }
+            // 그전꺼로 로그인 되어있는 정보로 로그인해야함
+            return $existUser;
+        }
+        else{
+            $user = User::firstOrCreate([
+                'name'  => $socialUser->getName(),  
+                'uid'  => $socialUser->getId(), 
+                'email' => $socialUser->getEmail(), // 구글 이메일 가져오기 
+                'social_id'=>$socialUser->getId(),
+                'social_provider'=>'naver',
+               // 'remember_token'=>Str::random(60)  
+            ]);
+            return $user;
+        }
+    }
+
 
     /**
      * 주어진 소셜 회원을 응용 프로그램에 등록합니다.
