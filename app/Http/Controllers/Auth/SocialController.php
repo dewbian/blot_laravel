@@ -24,6 +24,12 @@ class SocialController extends Controller
      */
     public function execute(Request $request, string $provider)
     {
+
+        Log::info("C:\blot\app\Http\Controllers\Auth\SocialController.php");    
+        Log::info("provider===>[".$provider."]"  );   
+        Log::info("request===>[".$request."]"  );   
+
+
         if (! array_key_exists($provider, config('services'))) {
             return $this->sendNotSupportedResponse($provider);
         }
@@ -57,6 +63,10 @@ class SocialController extends Controller
     {
         $socialUser = Socialite::driver($provider)->user();
 
+        Log::info($socialUser->getEmail());    
+        Log::info("현재유저는===>[".$user."]"  );    
+        
+
         if ($user = User::where('email', $socialUser->getEmail())->first()) {
             $this->guard()->login($user, true);
 
@@ -75,6 +85,8 @@ class SocialController extends Controller
      */
     protected function register(Request $request, SocialUser $socialUser)
     {
+
+
         event(new Registered($user = User::create($socialUser->getRaw())));
 
         $user->email_verified_at = Date::now();
