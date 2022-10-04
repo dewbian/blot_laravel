@@ -77,13 +77,30 @@ class SocialController extends Controller
         Log::info( "현재유저는===>[".$user2."]"   );    
         dump( "현재유저는===>[".$user2."]"  );    
         
+        $userToLogin = User::where([
+            'social_provider' => 'naver',
+            'social_id'       => $socialUser->getId(),  
+        ])->first();    
 
-        if ($user = User::where('email', $socialUser->getEmail())->first()) {
-            $this->guard()->login($user, true);
-            return $this->sendLoginResponse($request);
+         if (!$userToLogin) {
+            event(new Registered($userToLogin = User::create($socialUser->getRaw())));
+            $userToLogin->email_verified_at = date('Y-m-d H:i:s'); //Date::now();
+            $userToLogin->remember_token = Str::random(60); 
+            $userToLogin->social_id = $socialUser -> getId();
+            $userToLogin->social_provider = 'naver'; 
+            $userToLogin->save();
         }
 
-        return $this->register($request, $socialUser);
+        Auth::login($userToLogin);
+        return redirect('/home');
+
+
+        // if ($user = User::where('email', $socialUser->getEmail())->first()) {
+        //     $this->guard()->login($user, true);
+        //     return $this->sendLoginResponse($request);
+        // }
+
+        // return $this->register($request, $socialUser);
     }
 
     /**
@@ -97,12 +114,18 @@ class SocialController extends Controller
     {
         event(new Registered($user = User::create($socialUser->getRaw())));
         $user->email_verified_at = date('Y-m-d H:i:s'); //Date::now();
-        $user->remember_token = Str::random(60);
-      //  $user->sremember_token = Str::random(60);
+        $user->remember_token = Str::random(60); 
+        $user->social_id = $socialUser -> getId();
+        $user->social_provider = 'naver'; 
         $user->save();
 
-        $this->guard()->login($user, true);
-        return $this->sendLoginResponse($request);
+        // $this->guard()->login($user, true);
+        // return $this->sendLoginResponse($request);
+
+
+        Auth::login($userToLogin);
+        return redirect('/home');
+
     }
 
     /**
@@ -113,7 +136,7 @@ class SocialController extends Controller
      */
     protected function authenticated(Request $request, User $user): void
     {
-        //flash()->success(__('auth.welcome', ['name' => $user->name]));
+        flash()->success(__('auth.welcome', ['name' => $user->name]));
 
         //$request->session()->flash('status', 'Task was successful!');
 
