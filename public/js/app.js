@@ -2139,10 +2139,14 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("div", [_c("div", [_vm._v("누구랑 이야기 하니??????")]), _vm._v(" "), _vm._l(_vm.messages, function (message) {
+  return _c("div", [_c("div", [_vm._v("=================================")]), _vm._v(" "), _vm._l(_vm.messages, function (message) {
     return _c("div", {
       key: message.id
-    }, [_c("div", [_vm._v(_vm._s(message.from.name) + " " + _vm._s(message.created_at))]), _vm._v(" "), _c("div", [_vm._v(_vm._s(message.text))])]);
+    }, [_c("div", {
+      staticClass: "pb-2 text-base text-gray-500"
+    }, [_vm._v(_vm._s(message.from.name) + " " + _vm._s(message.created_at))]), _vm._v(" "), _c("div", {
+      staticClass: "pl-5"
+    }, [_vm._v(_vm._s(message.text))]), _vm._v(" "), _c("div", [_vm._v("----------------------------------------------------")])]);
   })], 2);
 };
 

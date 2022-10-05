@@ -1,11 +1,12 @@
 <template>    
 <div>
-    <div>누구랑 이야기 하니??????</div>
+    <div>=================================</div>
     <div v-for = "message in messages"  
     :key = "message.id"
     > 
-    <div>{{message.from.name}} {{message.created_at}}</div> 
-    <div>{{message.text}}</div> 
+    <div class="pb-2 text-base text-gray-500">{{message.from.name}} {{message.created_at}}</div> 
+    <div class="pl-5 ">{{message.text}}</div> 
+    <div>----------------------------------------------------</div> 
     </div>
 </div>    
 </template>
