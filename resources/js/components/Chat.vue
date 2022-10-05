@@ -20,7 +20,7 @@
             </div>
         </div>
         <div v-else>
-            어머어머 아직 누구한테 말할지 못 정하셨군요?
+            대화 하고자 하는 회원을 클릭하세요
         </div>
     </div>
 </template>
@@ -58,7 +58,7 @@
                 console.log("현재 유저는 이사람입니다.================>["+this.currentUser +"]");
                 this.chatWith = val;
                 //this.chatWith = 1;     
-                //this.getMessages();           
+                this.getMessages();           
             },
 
             getMessages(){

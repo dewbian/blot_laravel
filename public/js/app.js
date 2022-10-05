@@ -1939,7 +1939,8 @@ __webpack_require__.r(__webpack_exports__);
       console.log("부모한테 잘 왔는디요????updateChatWith================>[" + val + "]");
       console.log("현재 유저는 이사람입니다.================>[" + this.currentUser + "]");
       this.chatWith = val; //this.chatWith = 1;     
-      //this.getMessages();           
+
+      this.getMessages();
     },
     getMessages: function getMessages() {
       var _this = this;
@@ -2114,7 +2115,7 @@ var render = function render() {
         _vm.message = $event.target.value;
       }
     }
-  })])], 1) : _c("div", [_vm._v("\n        어머어머 아직 누구한테 말할지 못 정하셨군요?\n    ")])], 1);
+  })])], 1) : _c("div", [_vm._v("\n        대화 하고자 하는 회원을 클릭하세요\n    ")])], 1);
 };
 
 var staticRenderFns = [];

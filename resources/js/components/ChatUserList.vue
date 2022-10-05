@@ -23,12 +23,14 @@
             type: Number,
             required : true,
           }
-        },
-        data(){
-            return{
-                users: []
+        }, 
+
+        data: function () {
+            return {
+                users: [],
             }
-        } ,
+        },
+
         methods:{
             updateChatWith(val){
                 console.log("여기서 클릭이 되었지요?"+ val);
