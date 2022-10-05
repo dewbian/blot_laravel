@@ -11,37 +11,7 @@ use Laravel\Socialite\Facades\Socialite;
 
 class SocialController extends Controller
 {
-    use AuthenticatesUsers;
-
-    /**
-     * 주어진 provider에 대하여 소셜 응답을 처리합니다.
-     *
-     * @param Request $request
-     * @param string  $provider
-     * @return RedirectResponse|Response
-     */
-    // public function execute(Request $request, string $provider)
-    // {
-
-    //     Log::info("C:\blot\app\Http\Controllers\Auth\SocialController.php");    
-    //     Log::info("provider===>[".$provider."]"  );   
-    //     Log::info("request===>[".$request."]"  );   
-
-
-    //     if (! array_key_exists($provider, config('services'))) {
-             
-    //         Log::info("11111111111"  );  
-    //         return $this->sendNotSupportedResponse($provider);
-    //     }
-
-    //     if (! $request->has('code')) { 
-    //         Log::info("222222"  );  
-    //         return $this->redirectToProvider($provider);
-    //     }
-
-    //     return $this->handleProviderCallback($request, $provider);
-    // }
-
+    use AuthenticatesUsers; 
     /**
      * 사용자를 주어진 공급자의 OAuth 서비스로 리디렉션합니다.
      *
@@ -78,7 +48,7 @@ class SocialController extends Controller
                     ->update(['name' => $socialUser->getName()],['email' => $socialUser->getEmail()]);
             }
             else{
-                User::where('email', $existUser->uid)
+                User::where('email', $existUser->email)
                     ->update(['name' => $socialUser->getName()],['email' => $socialUser->getEmail()],['rememt_token'=> $socialUser->refreshToken]);
             }
             // 그전꺼로 로그인 되어있는 정보로 로그인해야함
@@ -87,7 +57,7 @@ class SocialController extends Controller
         else{
             $user = User::firstOrCreate([
                 'name'  => $socialUser->getName(),   
-                'email' => $socialUser->getEmail(), // 구글 이메일 가져오기 
+                'email' => $socialUser->getEmail(),  
                 'social_id'=>$socialUser->getId(),
                 'social_provider'=>'naver', 
             ]);

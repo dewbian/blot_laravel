@@ -31,6 +31,7 @@
         } ,
         methods:{
             updateChatWith(val){
+                console.log("여기서 클릭이 되었지요?"+ val);
                 this.$emit( "updateChatWith_parent" , val );
             }
         },

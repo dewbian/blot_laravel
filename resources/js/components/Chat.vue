@@ -5,7 +5,7 @@
             v-bind:currentUser="currentUser"   
             @updateChatWith_parent =  "updateChatWith"    
         /> 
-        <div v-if="chatWith">
+        <div v-if="chatWith2">
             <vue_ChatArea
                 v-bind:messages = "messages"            
             />
@@ -37,7 +37,8 @@
         },
         data(){
             return{
-                chatWith    : null,
+                chatWith    : 0,
+                chatWith2    : 0,
                 message     : '',
                 messages    : [],
                 
@@ -54,7 +55,8 @@
         },
         methods:{
             updateChatWith(val){
-                this.chatWith = val;     
+                console.log("부모한테 잘 왔는디요????updateChatWith================>["+val+"]");
+                this.chatWith2 = 1;     
                 this.getMessages();           
             },
 
@@ -62,7 +64,7 @@
 
                 axios.get('/api/messages', {
                     params : {
-                        to : this.chatWith,   
+                        to : this.chatWith2,   
                         from : this.currentUser           
                     }
                 }).then(res =>{
@@ -92,7 +94,7 @@
                 if(this.message){
                     axios.post('/api/messages',{
                         text : this.message,
-                        to : this.chatWith,
+                        to : this.chatWith2,
                         from : this.currentUser
                     }); 
                     this.message = "";
