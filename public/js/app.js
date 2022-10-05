@@ -1922,7 +1922,6 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       chatWith: 0,
-      chatWith2: 0,
       message: '',
       messages: []
     };
@@ -1938,15 +1937,16 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     updateChatWith: function updateChatWith(val) {
       console.log("부모한테 잘 왔는디요????updateChatWith================>[" + val + "]");
-      this.chatWith2 = 1;
-      this.getMessages();
+      console.log("현재 유저는 이사람입니다.================>[" + this.currentUser + "]");
+      this.chatWith = val; //this.chatWith = 1;     
+      //this.getMessages();           
     },
     getMessages: function getMessages() {
       var _this = this;
 
       axios.get('/api/messages', {
         params: {
-          to: this.chatWith2,
+          to: this.chatWith,
           from: this.currentUser
         }
       }).then(function (res) {
@@ -1969,7 +1969,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.message) {
         axios.post('/api/messages', {
           text: this.message,
-          to: this.chatWith2,
+          to: this.chatWith,
           from: this.currentUser
         });
         this.message = "";
@@ -2085,7 +2085,7 @@ var render = function render() {
     on: {
       updateChatWith_parent: _vm.updateChatWith
     }
-  }), _vm._v(" "), _vm.chatWith2 ? _c("div", [_c("vue_ChatArea", {
+  }), _vm._v(" "), _vm.chatWith ? _c("div", [_c("vue_ChatArea", {
     attrs: {
       messages: _vm.messages
     }

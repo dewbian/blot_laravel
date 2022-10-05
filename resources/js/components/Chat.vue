@@ -5,7 +5,7 @@
             v-bind:currentUser="currentUser"   
             @updateChatWith_parent =  "updateChatWith"    
         /> 
-        <div v-if="chatWith2">
+        <div v-if="chatWith"> 
             <vue_ChatArea
                 v-bind:messages = "messages"            
             />
@@ -35,15 +35,14 @@
             required : true,
             }, 
         },
-        data(){
-            return{
-                chatWith    : 0,
-                chatWith2    : 0,
-                message     : '',
-                messages    : [],
-                
-            }            
+        data: function () {
+            return {
+                    chatWith    : 0, 
+                    message     : '',
+                    messages    : [],
+            }
         },
+ 
         mounted(){
             console.log ("Chat vue mouted=====================");
             console.log ("뭐가 왔는가 props==>["+this.currentUser+"]");
@@ -56,18 +55,20 @@
         methods:{
             updateChatWith(val){
                 console.log("부모한테 잘 왔는디요????updateChatWith================>["+val+"]");
-                this.chatWith2 = 1;     
-                this.getMessages();           
+                console.log("현재 유저는 이사람입니다.================>["+this.currentUser +"]");
+                this.chatWith = val;
+                //this.chatWith = 1;     
+                //this.getMessages();           
             },
 
             getMessages(){
 
                 axios.get('/api/messages', {
                     params : {
-                        to : this.chatWith2,   
+                        to : this.chatWith,   
                         from : this.currentUser           
                     }
-                }).then(res =>{
+                }).then(res =>{ 
                     console.log( "가져온 메시지" + res);
                     this.messages = res.data.messages;
                 })
@@ -94,7 +95,7 @@
                 if(this.message){
                     axios.post('/api/messages',{
                         text : this.message,
-                        to : this.chatWith2,
+                        to : this.chatWith,
                         from : this.currentUser
                     }); 
                     this.message = "";
