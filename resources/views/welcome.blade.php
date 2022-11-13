@@ -15,6 +15,7 @@
 </head>
 <body class="bg-gray-100 h-screen antialiased leading-none">
 <div class="flex flex-col">
+    <div class="border-red-500"><a href="{{ url('/master') }}" >master</a></div>    
     @if(Route::has('login'))
         <div class="absolute top-0 right-0 mt-4 mr-4">
             @auth
